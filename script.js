@@ -3,10 +3,15 @@ const tabs = Array.from(document.getElementsByClassName('tab'))
 const form = document.querySelector('form')
 const saveBtn = document.querySelector('.save')
 const addTab = document.querySelector('#addTab')
+let textarea = document.querySelector('.area')
 
 let currTab
-let areaInfo
+let recentTab = JSON.parse(localStorage.getItem('Recent Tab'))
 let changeCount = 0
+
+function saveRecentTab(value) {
+   localStorage.setItem('Recent Tab', JSON.stringify(value))
+}
 
 function createTab(eachData) {
    const div = document.createElement('div')
@@ -26,71 +31,93 @@ function loadData(data) {
    data.forEach(eachData => {
       createTab(eachData)
    })
-   form.textarea.value = data[0].body
-   currTab = 0
+   textarea.value = data[recentTab].body
+   currTab = recentTab
 }
 
 function tabChange(data) {
    document.querySelectorAll('.tab').forEach((tab, i) => {
       tab.addEventListener('click', () => {
-         form.textarea.value = data[i].body
+         saveRecentTab(currTab)
+         textarea.value = data[i].body
          currTab = parseInt(i)
       })
    })
+
 }
 
-function changeDb(e) {
-   e.preventDefault()
-   changeCount = 0
-   fetch('http://localhost:8000/tabsData/' + currTab, {
-      method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-         id: currTab,
-         name: `Tab ${currTab+1}`,
-         body: form.textarea.value
+function saveFunc() {
+   document.querySelector('.save').addEventListener('click', () => {
+      changeCount = 0
+      fetch('http://localhost:8000/tabsData/' + currTab, {
+         method: 'PUT',
+         headers: {'Content-Type': 'application/json'},
+         body: JSON.stringify({
+            id: currTab,
+            name: `Tab ${currTab+1}`,
+            body: textarea.value
+         })
       })
    })
 }
 
-function addTabFunc(e) {
-   e.preventDefault()
-   let tab = {
-      name: `Tab ${document.querySelectorAll('.tab').length + 1}`
-   }
-   currTab = parseInt(Number(tab.name.slice(-1)) - 1)
-   createTab(tab)
-   fetch('http://localhost:8000/tabsData', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-         id: currTab,
-         name: tab.name,
-         body: ''
+function addTabFunc(data) {
+   document.querySelector('#addTab').addEventListener('click', (e) => {
+      e.preventDefault()
+      let tab = {
+         name: `Tab ${document.querySelectorAll('.tab').length + 1}`
+      }
+      currTab = parseInt(Number(tab.name.slice(-1)) - 1)
+      createTab(tab)
+      fetch('http://localhost:8000/tabsData', {
+         method: 'POST',
+         headers: {'Content-Type': 'application/json'},
+         body: JSON.stringify({
+            id: currTab,
+            name: tab.name,
+            body: ''
+         })
+      })
+      textarea.value = data[currTab].body
+   })
+}
+
+function closeFunc() {
+   document.querySelectorAll('.close').forEach((close, i) => {
+      close.addEventListener('click', () => {
+         fetch('http://localhost:8000/tabsData/' + i, {
+            method: 'DELETE'
+         })
       })
    })
+   currTab = 0
 }
 
 function textChange() {
-   form.textarea.addEventListener('keyup', () => {
+   textarea.addEventListener('keyup', () => {
       changeCount ++
-      checkForChanges()
+      window.onbeforeunload = () => {
+         if (changeCount > 0) {
+            return confirm()
+         }
+      }
+      if (changeCount === 0) {
+         saveBtn.disabled = true
+      } else {
+         saveBtn.disabled = false
+      }
    })
 }
 
-function checkForChanges() {
-   if (changeCount === 0) {
-      saveBtn.disabled = true
-   }
-}
-
-fetch('http://localhost:8000/tabsData')
+document.addEventListener('DOMContentLoaded', () => {
+   fetch('http://localhost:8000/tabsData')
    .then(res => res.json())
    .then(data => {
       loadData(data)
       tabChange(data)
       textChange()
+      closeFunc()
+      saveFunc()
+      addTabFunc(data)
    })
-
-saveBtn.addEventListener('click', changeDb)
-addTab.addEventListener('click', addTabFunc)
+})
