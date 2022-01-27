@@ -6,7 +6,7 @@ const addTab = document.querySelector('#addTab')
 let textarea = document.querySelector('.area')
 
 let currTab
-let recentTab = JSON.parse(localStorage.getItem('Recent Tab'))
+let recentTab = JSON.parse(localStorage.getItem('Recent Tab')) || 0
 let changeCount = 0
 
 function saveRecentTab(value) {
@@ -121,3 +121,5 @@ document.addEventListener('DOMContentLoaded', () => {
       addTabFunc(data)
    })
 })
+
+window.onbeforeunload = () => saveRecentTab(currTab)
