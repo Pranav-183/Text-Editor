@@ -55,7 +55,8 @@ body {
 }
 
 .close {
-   font-size: 25px;
+   font-size: 15px;
+   margin-left: 10px;
    cursor: default;
    font-weight: bold;
 }

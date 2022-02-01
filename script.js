@@ -1,125 +1,123 @@
-const allTabs = document.querySelector('#allTabs')
-const tabs = Array.from(document.getElementsByClassName('tab'))
-const form = document.querySelector('form')
-const saveBtn = document.querySelector('.save')
-const addTab = document.querySelector('#addTab')
+// INITIALIZE STUFF
+
+let allTabs = document.getElementById('allTabs')
 let textarea = document.querySelector('.area')
+let data, text, currentTab
 
-let currTab
-let recentTab = JSON.parse(localStorage.getItem('Recent Tab')) || 0
-let changeCount = 0
-
-function saveRecentTab(value) {
-   localStorage.setItem('Recent Tab', JSON.stringify(value))
+if (JSON.parse(localStorage.getItem('Text Editor Data')) === '' || JSON.parse(localStorage.getItem('Text Editor Data')) === undefined || JSON.parse(localStorage.getItem('Text Editor Data')) === null) {
+   data = []
+} else {
+   data = JSON.parse(localStorage.getItem('Text Editor Data'))
 }
 
-function createTab(eachData) {
-   const div = document.createElement('div')
-   div.classList.add('tab')
-   const tabName = document.createElement('span')
-   tabName.classList.add('tabName')
-   tabName.innerText = eachData.name
-   div.append(tabName)
-   const close = document.createElement('span')
-   close.classList.add('close')
-   close.innerText = '×'
-   div.append(close)
-   allTabs.append(div)
+const createTab = (data) => {
+   const tab = document.createElement('div')
+   tab.classList.add('tab')
+   tab.innerHTML = `
+      <span class="tabName">${data.name}</span>
+      <span class="close">&#x2715</span>
+   `
+   allTabs.append(tab)
 }
 
-function loadData(data) {
-   data.forEach(eachData => {
-      createTab(eachData)
-   })
-   textarea.value = data[recentTab].body
-   currTab = recentTab
-}
+// FUNCTIONS
 
-function tabChange(data) {
-   document.querySelectorAll('.tab').forEach((tab, i) => {
-      tab.addEventListener('click', () => {
-         saveRecentTab(currTab)
-         textarea.value = data[i].body
-         currTab = parseInt(i)
-      })
-   })
-
-}
-
-function saveFunc() {
-   document.querySelector('.save').addEventListener('click', () => {
-      changeCount = 0
-      fetch('http://localhost:8000/tabsData/' + currTab, {
-         method: 'PUT',
-         headers: {'Content-Type': 'application/json'},
-         body: JSON.stringify({
-            id: currTab,
-            name: `Tab ${currTab+1}`,
-            body: textarea.value
-         })
-      })
+const loadData = () => {
+   data.forEach(data => {
+      createTab(data)
+      if (data.recent === 'true') {
+         text = data.body
+         textarea.innerText = text
+         currentTab = data.id
+      } else return
    })
 }
+loadData()
 
-function addTabFunc(data) {
-   document.querySelector('#addTab').addEventListener('click', (e) => {
-      e.preventDefault()
-      let tab = {
-         name: `Tab ${document.querySelectorAll('.tab').length + 1}`
-      }
-      currTab = parseInt(Number(tab.name.slice(-1)) - 1)
-      createTab(tab)
-      fetch('http://localhost:8000/tabsData', {
-         method: 'POST',
-         headers: {'Content-Type': 'application/json'},
-         body: JSON.stringify({
-            id: currTab,
-            name: tab.name,
-            body: ''
-         })
-      })
-      textarea.value = data[currTab].body
-   })
+const saveData = (data) => {
+   localStorage.setItem('Text Editor Data', JSON.stringify(data))
 }
 
-function closeFunc() {
-   document.querySelectorAll('.close').forEach((close, i) => {
-      close.addEventListener('click', () => {
-         fetch('http://localhost:8000/tabsData/' + i, {
-            method: 'DELETE'
-         })
-      })
-   })
-   currTab = 0
-}
+// TAB CLICK TO CHANGE TAB
 
-function textChange() {
-   textarea.addEventListener('keyup', () => {
-      changeCount ++
-      window.onbeforeunload = () => {
-         if (changeCount > 0) {
-            return confirm()
-         }
-      }
-      if (changeCount === 0) {
-         saveBtn.disabled = true
-      } else {
-         saveBtn.disabled = false
-      }
-   })
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-   fetch('http://localhost:8000/tabsData')
-   .then(res => res.json())
-   .then(data => {
-      loadData(data)
-      tabChange(data)
-      textChange()
+const changeText = () => {
+   document.querySelector('textarea').addEventListener('input', (e) => {
+      text = e.target.value
+      data[currentTab].body = text
+      allTabs.innerHTML = null
+      saveData(data)
+      loadData()
+      changeTab()
       closeFunc()
-      saveFunc()
-      addTabFunc(data)
+      addTab()
    })
-})
+}
+changeText()
 
-window.onbeforeunload = () => saveRecentTab(currTab)
+const changeTab = () => {
+   document.querySelectorAll('.tab').forEach((tab, i) => {
+      tab.onclick = (e) => {
+         if (e.target.classList[0] === 'close') return
+         text = data[i].body
+         document.querySelector('.area').value = text
+         currentTab = i
+         data.forEach(data => {
+            if (data.id === i) {
+               data.recent = 'true'
+            } else {
+               data.recent = 'false'
+            }
+         })
+         saveData(data)
+      }
+   })
+}
+changeTab()
+
+const addTab = () => {
+   document.querySelector('#addTab').onclick = () => {
+      data.forEach(data => {
+         if (data.id != data.length) {
+            data.recent = 'false'
+         }
+      })
+      currentTab = data.length
+      data.push({
+         id: data.length,
+         name: `Tab ${data.length + 1}`,
+         body: '',
+         recent: 'true'
+      })
+      allTabs.innerHTML = null
+      saveData(data)
+      loadData()
+      closeFunc()
+      changeTab()
+      addTab()
+   }
+}
+addTab()
+
+const closeFunc = () => {
+   document.querySelectorAll('.close').forEach((close, i) => {
+      close.onclick = () => {
+         data = data.filter(data => data.id != i)
+         data.forEach((data, i) => {
+            data.id = i
+         })
+         data[data.length - 1].recent = 'true'
+         if (data.id != (data.length - 1)) {
+            data.recent = 'false'
+         }
+         text = data[data.length - 1].body
+         currentTab = data[data.length - 1].id
+         allTabs.innerHTML = null
+         saveData(data)
+         loadData()
+         closeFunc()
+         changeTab()
+         addTab()
+      }
+   })
+}
+closeFunc()
