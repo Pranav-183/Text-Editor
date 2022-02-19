@@ -1,0 +1,214 @@
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+body.logister, body.profile {
+   height: 100vh;
+   width: 100vw;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+body.logister > header, body.profile > header {
+   position: absolute;
+   top: 0;
+   width: 100%;
+}
+
+.tabSection {
+   height: 10vh;
+   width: 100vw;
+   background-color: red;
+}
+
+.bg {
+   background-image: url('./logister.jpg');
+   position: absolute;
+   z-index: -1;
+   width: 100%;
+   height: 100%;
+   filter: blur(5px);
+}
+
+.logisterForm {
+   width: 350px;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+}
+
+.material-icons {
+   position: relative;
+   top: 45px;
+   left: 10px;
+   cursor: default;
+   width: min-content;
+}
+
+.logisterForm > input {
+   font-family: Verdana, Geneva, Tahoma, sans-serif;
+   width: 100%;
+   outline: none;
+   background-color: #fff;
+   border-radius: 4px;
+   border: none;
+   display: block;
+   padding: 0.9rem 0.7rem;
+   box-shadow: 0px 3px 6px rgb(0 0 0 / 16%);
+   font-size: 17px;
+   color: #4A4A4A;
+   text-indent: 40px;
+   margin-top: 10px;
+}
+
+.submit, .deleteUser, .changeUserDetails {
+   outline: none;
+   border: none;
+   cursor: pointer;
+   display: inline-block;
+   margin: 0 auto;
+   padding: 0.9rem 2.5rem;
+   text-align: center;
+   background-color: #47AB11;
+   color: #fff;
+   border-radius: 4px;
+   box-shadow: 0px 3px 6px rgb(0 0 0 / 16%);
+   font-size: 17px;
+   margin-top: 30px;
+   transition: all 0.3s ease;
+}
+
+.submit:hover, .deleteUser:hover, .changeUserDetails:hover {
+   background-color: #fff;
+   color: #47AB11;
+}
+
+.mssg {
+   font-family: Georgia, 'Times New Roman', Times, serif;
+   background-color: #54ac25;
+   color: #fff;
+   height: 45px;
+   padding: 10px;
+   text-align: center;
+   cursor: default;
+   opacity: 0;
+   transition: all .3s ease-in;
+   margin-top: -50px;
+}
+
+/* Nav Bar */
+
+nav > ul {
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+   list-style: none;
+   height: 60px;
+   background-color: rgb(177, 182, 250);
+}
+
+.navEl {
+   height: 60px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   cursor: pointer;
+   font-size: 1.2rem;
+   font-family: cursive;
+   background-color: rgb(177, 182, 250);
+   transition: all .2s ease-in-out;
+}
+.navEl:hover {
+   background-color: rgb(159, 164, 252);
+}
+
+.navEl.logister {
+   position: relative;
+   left: 71vw;
+}
+
+/* Img */
+
+.navEl:first-of-type > img {
+   height: 50px;
+   width: 50px;
+}
+.navEl:first-of-type {
+   padding: 0 20px;
+}
+.navEl:first-of-type:hover {
+   background-color: rgb(177, 182, 250);
+}
+
+/* Links */
+
+.navEl > a {
+   padding: 0 20px;
+   text-decoration: none;
+   color: black;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   height: 100%;
+}
+
+/* Active */
+
+.navEl.active {
+   background-color: rgb(144, 150, 247);
+}
+
+/* Profile */
+
+.profileForm {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+}
+
+.profileForm > .mssg {
+   margin-bottom: 30px;
+   background-color: red;
+}
+
+.profileField {
+   margin-bottom: 20px;
+   align-self: flex-end;
+}
+
+.profileField > label {
+   font-size: 1.1rem;
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.profileField > input {
+   padding: 10px;
+   font-size: 1.1rem;
+   margin-left: 10px;
+   width: 200px;
+}
+
+.deleteUser {
+   background-color: red;
+   width: 150px;
+   font-size: .9rem;
+   text-align: center;
+   padding: 15px;
+   margin: 10px;
+}
+.deleteUser:hover {
+   color: red;
+}
+
+.changeUserDetails {
+   width: 175px;
+   font-size: .9rem;
+   text-align: center;
+   padding: 15px;
+   margin: 10px;
+}

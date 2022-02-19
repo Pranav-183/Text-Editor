@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <link rel="shortcut icon" href="textEditor.jpg" type="image/x-icon">
+   <link rel="stylesheet" href="index.css" type="text/css">
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+   <title>Text Editor - Login</title>
+   <script src="login.js" defer></script>
+</head>
+<body class="logister">
+   <header>
+      <nav>
+         <ul>
+            <li class="navEl"><img src="textEditor.jpg" alt="textEditor"></li>
+            <li class="navEl"><a href="/index.html">Home</a></li>
+            <li class="navEl"><a href="/profile.html">Profile</a></li>
+            <li class="navEl logister"><a href="/register.html">Register</a></li>
+         </ul>
+      </nav>
+   </header>
+   <div class="bg"></div>
+   <form autocomplete="off" class="logisterForm">
+      <span class="mssg"></span>
+
+      <span class="material-icons">account_circle</span>
+      <input type="text" name="username" placeholder="Username" id="username" />
+
+      <span class="material-icons">lock</span>
+      <input type="password" name="password" placeholder="Password" id="password" />
+
+      <button type="submit" class="submit">Login</button>
+   </form>
+</body>
+</html>

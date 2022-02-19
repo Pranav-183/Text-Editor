@@ -1,7 +1,11 @@
 // INITIALIZE STUFF
 
-let allTabs = document.getElementById('allTabs')
-let textarea = document.querySelector('.area')
+if (sessionStorage.getItem('Current User Index') === null) {
+   window.location.replace('/login.html')
+}
+
+let allTabs = document.querySelector('.allTabs')
+let area = document.querySelector('.area')
 let data, text, currentTab
 
 if (JSON.parse(localStorage.getItem('Text Editor Data')) === '' || JSON.parse(localStorage.getItem('Text Editor Data')) === undefined || JSON.parse(localStorage.getItem('Text Editor Data')) === null) {
@@ -9,6 +13,7 @@ if (JSON.parse(localStorage.getItem('Text Editor Data')) === '' || JSON.parse(lo
 } else {
    data = JSON.parse(localStorage.getItem('Text Editor Data'))
 }
+
 
 const createTab = (data) => {
    const tab = document.createElement('div')
@@ -27,7 +32,7 @@ const loadData = () => {
       createTab(data)
       if (data.recent === 'true') {
          text = data.body
-         textarea.innerText = text
+         area.innerText = text
          currentTab = data.id
       } else return
    })
@@ -40,26 +45,35 @@ const saveData = (data) => {
 
 // TAB CLICK TO CHANGE TAB
 
+const callAllFunctions = () => {
+   saveData(data)
+   loadData()
+   closeFunc()
+   changeTab()
+   addTab()
+}
+
 const changeText = () => {
-   document.querySelector('textarea').addEventListener('input', (e) => {
-      text = e.target.value
-      data[currentTab].body = text
-      allTabs.innerHTML = null
-      saveData(data)
-      loadData()
-      changeTab()
-      closeFunc()
-      addTab()
+   document.querySelector('.area').addEventListener('input', (e) => {
+      console.log(e.currentTarget.innerText)
    })
 }
 changeText()
+
+const saveNow = () => {
+   document.querySelector('.save').addEventListener('click', () => {
+      data[currentTab].body = document.querySelector('.area').innerText
+      document.querySelector('.area').focus
+   })
+}
+saveNow()
 
 const changeTab = () => {
    document.querySelectorAll('.tab').forEach((tab, i) => {
       tab.onclick = (e) => {
          if (e.target.classList[0] === 'close') return
          text = data[i].body
-         document.querySelector('.area').value = text
+         document.querySelector('.area').innerText = text
          currentTab = i
          data.forEach(data => {
             if (data.id === i) {
@@ -75,7 +89,7 @@ const changeTab = () => {
 changeTab()
 
 const addTab = () => {
-   document.querySelector('#addTab').onclick = () => {
+   document.querySelector('.addTab').onclick = () => {
       data.forEach(data => {
          if (data.id != data.length) {
             data.recent = 'false'
@@ -89,11 +103,7 @@ const addTab = () => {
          recent: 'true'
       })
       allTabs.innerHTML = null
-      saveData(data)
-      loadData()
-      closeFunc()
-      changeTab()
-      addTab()
+      callAllFunctions()
    }
 }
 addTab()
@@ -112,12 +122,15 @@ const closeFunc = () => {
          text = data[data.length - 1].body
          currentTab = data[data.length - 1].id
          allTabs.innerHTML = null
-         saveData(data)
-         loadData()
-         closeFunc()
-         changeTab()
-         addTab()
+         callAllFunctions()
       }
    })
 }
 closeFunc()
+
+const boldText = () => {
+   document.querySelector('.area').addEventListener('select', () => {
+      let selected = window.getSelection().toString()
+   })
+}
+boldText()

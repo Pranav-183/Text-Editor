@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="shortcut icon" href="textEditor.jpg" type="image/x-icon">
+   <link rel="stylesheet" href="index.css" type="text/css">
+   <title>Text Editor - Profile</title>
+   <script src="profile.js" defer></script>
+</head>
+<body class="profile">
+   <header>
+      <nav>
+         <ul>
+            <li class="navEl"><img src="textEditor.jpg" alt="textEditor"></li>
+            <li class="navEl"><a href="/index.html">Home</a></li>
+            <li class="navEl active"><a href="/profile.html">Profile</a></li>
+         </ul>
+      </nav>
+   </header>
+   <form autocomplete="off" class="profileForm">
+      <span class="mssg">Wrong Password</span>
+      <div class="profileField">
+         <label for="name">Name</label>
+         <input type="text" class="name" name="name">
+      </div>
+      <div class="profileField">
+         <label for="username">Username</label>
+         <input type="text" class="username" name="username">
+      </div>
+      <div class="profileField">
+         <label for="password">Password</label>
+         <input type="password" class="password" name="password" required>
+      </div>
+      <span>
+         <button type="submit" name="change" class="changeUserDetails">Change User Details</button>
+      </span>
+   </form>
+   <form>
+      
+   </form>
+   <span>
+      <button style="display: none;" type="button" name="delete" class="deleteUser">Delete User</button>
+   </span>
+</body>
+</html>
