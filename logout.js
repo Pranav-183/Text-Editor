@@ -1,5 +1,5 @@
 if (sessionStorage.getItem('Current User Index') === null) {
-   window.location.replace('/login.html')
+   window.location.replace('Text-Editor/login.html')
 }
 
 const logout = document.querySelector('.logout')
