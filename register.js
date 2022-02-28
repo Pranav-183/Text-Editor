@@ -17,7 +17,7 @@ const success = (name, un, pw) => {
    mssg.style.backgroundColor = '#54ac25'
    mssg.style.opacity = '1'
 
-   users.push({name: name,username: un, password: pw, data: ''})
+   users.push({name: name,username: un, password: pw, data: [{tabName: 'Tab 1', text: ''}], recent: 0, logo: 'Default Account Img.png'})
    localStorage.setItem('users', JSON.stringify(users))
    
    setTimeout(() => {
@@ -27,7 +27,7 @@ const success = (name, un, pw) => {
 
 form.addEventListener('submit', (e) => {
    e.preventDefault()
-   if ((form.username.value === '' & form.password.value === '') || form.username.value === false || form.password.value === '') {
+   if (form.username.value === '' || form.password.value === '') {
       empty()
    } else {
       success(form.name.value, form.username.value, form.password.value)

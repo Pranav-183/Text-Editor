@@ -6,29 +6,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="textEditor.jpg" type="image/x-icon">
     <link rel="stylesheet" href="index.css" />
-    <script src="index.js" type="module" defer></script>
-    <title>Text Editor</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="index.js" defer></script>
+    <script src="logout.js" defer></script>
+    <script src="expandNav.js" defer></script>
+    <script src="menu.js" defer></script>
+   <title>Text Editor</title>
   </head>
   <body>
     <header>
       <nav>
          <ul>
-            <li class="navEl"><img src="textEditor.jpg" alt="textEditor"></li>
+           <li class="navEl webLogo"><img src="textEditor.jpg" alt="web Logo"></li>
+           <li class="navEl menu menu1">
+             <span class="clickSpan clickSpan1">File</span>
+             <ul class="menuList menuList1">
+               <li><span title="Save Data" class="menuMainSpan save">Save</span><span class="shortcut">Alt+S</span></li>
+               <li><span title="Enable/Disable Auto Save" class="menuMainSpan autoSave">Auto Save <span class="done material-icons"></span></span><span class="shortcut">Alt+Shift+S</span></li>
+               <li><span title="Create A New Tab" class="menuMainSpan newTab">New Tab</span><span class="shortcut">Alt+T</span></li>
+               <li><span title="Close Current Tab" class="menuMainSpan closeTab">Close Tab</span><span class="shortcut">Alt+W</span></li>
+              </ul>
+            </li>
+            <li class="navEl menu menu2">
+              <span class="clickSpan clickSpan2">Edit</span>
+              <ul class="menuList menuList2">
+                <li><span title="Undo Recent Action" class="menuMainSpan undo">Undo</span><span class="shortcut">Ctrl+Z</span></li>
+                <li><span title="Redo Recently Undone Action" class="menuMainSpan redo">Redo</span><span class="shortcut">Ctrl+U</span></li>
+                <li class="menuSeperate"><hr></li>
+                <li><span title="Cut Selected Text" class="menuMainSpan cut">Cut</span><span class="shortcut">Ctrl+X</span></li>
+                <li><span title="Copy Selected Text" class="menuMainSpan copy">Copy</span><span class="shortcut">Ctrl+C</span></li>
+                <li><span title="Paste Text From Clipboard" class="menuMainSpan paste">Paste</span><span class="shortcut">Ctrl+V</span></li>
+              </ul>
+            </li>
+            <li class="navEl menu menu3">
+               <span class="clickSpan clickSpan3">Format</span>
+               <ul class="menuList menuList3">
+                  <li><span class="menuMainSpan bold">Bold</span><span class="shortcut">Ctrl+B</span></li>
+                  <li><span class="menuMainSpan italic">Italic</span><span class="shortcut">Ctrl+I</span></li>
+                  <li><span class="menuMainSpan underline">Underline</span><span class="shortcut">Ctrl+U</span></li>
+                  <li><span class="menuMainSpan decFontSize">Decrease Font Size</span><span class="shortcut">Ctrl+DownArrow</span></li>
+                  <li><span class="menuMainSpan incFontSize">Increase Font Size</span><span class="shortcut">Ctrl+UpArrow</span></li>
+                  <li><span class="menuMainSpan subscript">Subscript</span><span class="shortcut">Alt+DownArrow</span></li>
+                  <li><span class="menuMainSpan superscript">Superscript</span><span class="shortcut">Alt+UpArrow</span></li>
+               </ul>
+            </li>
             <li class="navEl active"><a href="/index.html">Home</a></li>
             <li class="navEl"><a href="/profile.html">Profile</a></li>
+            <li class="navEl logout"><button>Logout</button></li>
+            <li class="navEl navProfilePicLi"><img class="navProfilePic" src="Default Account Img.png" alt="profilePicNav"></li>
          </ul>
       </nav>
    </header>
     <div class="tabSection">
       <div class="allTabs"></div>
       <span class="addTab">+</span>
-    </div>
-    <div class="options">
-      <button class="btn"><strong>B</strong></button>
-      <button class="btn"><em>I</em></button>
-      <button class="btn"><u>U</u></button>
-      <button class="btn">ABC</button>
-      <button class="save">Save Now</button>
     </div>
     <div class="area" contenteditable="true"></div>
   </body>

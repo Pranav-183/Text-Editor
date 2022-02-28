@@ -6,42 +6,106 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <link rel="shortcut icon" href="textEditor.jpg" type="image/x-icon">
    <link rel="stylesheet" href="index.css" type="text/css">
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
    <title>Text Editor - Profile</title>
    <script src="profile.js" defer></script>
+   <script src="logout.js" defer></script>
+   <script src="expandNav.js" defer></script>
+   <script src="menu.js" defer></script>
 </head>
 <body class="profile">
    <header>
       <nav>
          <ul>
-            <li class="navEl"><img src="textEditor.jpg" alt="textEditor"></li>
             <li class="navEl"><a href="/index.html">Home</a></li>
+            <li class="navEl menu">
+               <span class="clickSpan">File</span>
+              <ul class="menuList menuList1">
+                 <li><span class="save">Save</span></li>
+                 <li><span class="autoSave">Auto Save <span class="done material-icons">done</span></span></li>
+                 <li><span class="closeTab">Close Tab</span></li>
+               </ul>
+            </li>
+            <li class="navEl menu">
+               <span class="clickSpan">Edit</span>
+              <ul class="menuList menuList2">
+               <li><span class="undo">Undo</span></li>
+               <li><span class="redo">Redo</span></li>
+               <li><span class="cut">Cut</span></li>
+               <li><span class="copy">Copy</span></li>
+               <li><span class="paste">Paste</span></li>
+             </ul>
+            </li>
             <li class="navEl active"><a href="/profile.html">Profile</a></li>
+            <li class="navEl logout"><button>Logout</button></li>
+            <li class="navEl navProfilePicLi"><img class="navProfilePic" src="Default Account Img.png" alt="profilePicNav"></li>
          </ul>
       </nav>
    </header>
-   <form autocomplete="off" class="profileForm">
-      <span class="mssg">Wrong Password</span>
-      <div class="profileField">
-         <label for="name">Name</label>
-         <input type="text" class="name" name="name">
+   <div class="profileNav">
+      <ul>
+         <li class="profileNavItem"><a href="profile.html#changeUserDetails">Change Name/Username</a></li>
+         <li class="profileNavItem"><a href="profile.html#changePassword">Change Password</a></li>
+         <li class="profileNavItem"><a href="profile.html#deleteUser">Delete User</a></li>
+      </ul>
+   </div>
+   <div class="sections">
+      <div class="profileSection" id="overview">
+         <input type="file" accept="image/*" name="file" id="fileUpload">
+         <label for="fileUpload" id="fileUploadLabel"></label>
+         <img alt="userImage" id="userImage">
+
       </div>
-      <div class="profileField">
-         <label for="username">Username</label>
-         <input type="text" class="username" name="username">
-      </div>
-      <div class="profileField">
-         <label for="password">Password</label>
-         <input type="password" class="password" name="password" required>
-      </div>
-      <span>
-         <button type="submit" name="change" class="changeUserDetails">Change User Details</button>
-      </span>
-   </form>
-   <form>
-      
-   </form>
-   <span>
-      <button style="display: none;" type="button" name="delete" class="deleteUser">Delete User</button>
-   </span>
+      <section class="profileSection" id="changeUserDetails">
+         <form autocomplete="off" class="userDetailsForm">
+            <div class="mssg mssg1" name="mssg"></div>
+            <div class="profileField">
+               <label for="name">Name</label>
+               <input type="text" class="name" name="name">
+            </div>
+            <div class="profileField">
+               <label for="username">Username</label>
+               <input type="text" class="username" name="username">
+            </div>
+            <div class="profileField">
+               <label for="password">Password</label>
+               <input type="password" class="password" name="password" required>
+            </div>
+            <div>
+               <button type="submit" name="changeUserDetails" class="changeUserDetails">Change User Details</button>
+            </div>
+         </form>
+      </section>
+      <section class="profileSection" id="changePassword">
+         <form autocomplete="off" class="passwordForm">
+            <div class="mssg mssg2" name="mssg"></div>
+            <div class="profileField">
+               <label for="currpw">Current Password</label>
+               <input type="password" class="currpw" name="currpw" required>
+            </div>
+            <div class="profileField">
+               <label for="newpw">New Password</label>
+               <input type="password" class="newpw" name="newpw" required>
+            </div>
+            <button type="submit" name="changePassword" class="changePassword">Change Password</button>
+         </form>
+      </section>
+      <section class="profileSection" id="deleteUser">
+         <form autocomplete="off" class="deleteForm">
+            <div class="mssg mssg3" name="mssg"></div>
+            <div class="profileField">
+               <label for="pw">Password</label>
+               <input type="password" name="pw" class="pw" required>
+            </div>
+            <div class="profileField">
+               <label for="confirm">Confirm</label>
+               <button type="button" name="confirmButton" class="confirmButton">Confirm</button>
+            </div>
+            <div class="profileField">
+               <button type="submit" name="delete" class="deleteUser">Delete User</button>
+            </div>
+         </form>
+      </section>
+   </div>
 </body>
 </html>

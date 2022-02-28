@@ -1,136 +1,180 @@
-// INITIALIZE STUFF
+// Initialize
 
-if (sessionStorage.getItem('Current User Index') === null) {
-   window.location.replace('/login.html')
-}
-
-let allTabs = document.querySelector('.allTabs')
+const index = JSON.parse(sessionStorage.getItem('Current User Index'))
+let users = JSON.parse(localStorage.getItem('users'))
+let user = users[index]
+let tabNo = user.data.length
+let nextTabNo = tabNo + 1
+let img = user.logo
 let area = document.querySelector('.area')
-let data, text, currentTab
+let allTabs = document.querySelector('.allTabs')
+let addTab = document.querySelector('.addTab')
+let tabs = document.querySelectorAll('.tab')
+let navProfilePic = document.querySelector('.navProfilePic')
 
-if (JSON.parse(localStorage.getItem('Text Editor Data')) === '' || JSON.parse(localStorage.getItem('Text Editor Data')) === undefined || JSON.parse(localStorage.getItem('Text Editor Data')) === null) {
-   data = []
-} else {
-   data = JSON.parse(localStorage.getItem('Text Editor Data'))
-}
+document.addEventListener('DOMContentLoaded', () => {
+   navProfilePic.setAttribute('src', img)
+   loadData()
+   loadTabs()
+})
 
+// Functions
 
-const createTab = (data) => {
+const createTab = (index) => {
    const tab = document.createElement('div')
    tab.classList.add('tab')
+   tab.id = allTabs.childElementCount
    tab.innerHTML = `
-      <span class="tabName">${data.name}</span>
+      <span class="tabName">Tab ${index}</span>
       <span class="close">&#x2715</span>
    `
+   tab.addEventListener('click', changeTab)
+   tab.children[1].addEventListener('click', deleteTab)
    allTabs.append(tab)
 }
 
-// FUNCTIONS
+const saveFunc = () => {
+   users[index] = user
+   localStorage.setItem('users', JSON.stringify(users))
+}
+
+const loadTabs = () => {
+   allTabs.innerHTML = ''
+   user.data.forEach((data,i) => {
+      createTab(data.tabName.slice(-1))
+   })
+   tabs = document.querySelectorAll('.tab')
+   tabs[user.recent].classList.add('active')
+   area.innerText = user.data[user.recent].text
+}
 
 const loadData = () => {
-   data.forEach(data => {
-      createTab(data)
-      if (data.recent === 'true') {
-         text = data.body
-         area.innerText = text
-         currentTab = data.id
-      } else return
+   user.data.forEach((data,i) => {
+      data.tabName = `Tab ${i+1}`
    })
-}
-loadData()
-
-const saveData = (data) => {
-   localStorage.setItem('Text Editor Data', JSON.stringify(data))
+   saveFunc()
 }
 
-// TAB CLICK TO CHANGE TAB
-
-const callAllFunctions = () => {
-   saveData(data)
-   loadData()
-   closeFunc()
-   changeTab()
-   addTab()
+const refreshData = () => {
+   users = JSON.parse(localStorage.getItem('users'))
+   user = users[index]
+   nextTabNo = user.data.length + 1
 }
 
-const changeText = () => {
-   document.querySelector('.area').addEventListener('input', (e) => {
-      console.log(e.currentTarget.innerText)
+const addTabFunc = () => {
+   refreshData()
+   createTab(nextTabNo)
+   user.data.push({
+      tabName: `Tab ${nextTabNo}`,
+      text: ''
    })
-}
-changeText()
-
-const saveNow = () => {
-   document.querySelector('.save').addEventListener('click', () => {
-      data[currentTab].body = document.querySelector('.area').innerText
-      document.querySelector('.area').focus
+   saveFunc()
+   document.querySelectorAll('.close').forEach(close => {
+      close.addEventListener('click', deleteTab)
    })
-}
-saveNow()
-
-const changeTab = () => {
-   document.querySelectorAll('.tab').forEach((tab, i) => {
-      tab.onclick = (e) => {
-         if (e.target.classList[0] === 'close') return
-         text = data[i].body
-         document.querySelector('.area').innerText = text
-         currentTab = i
-         data.forEach(data => {
-            if (data.id === i) {
-               data.recent = 'true'
-            } else {
-               data.recent = 'false'
-            }
-         })
-         saveData(data)
-      }
+   tabs.forEach(tab => {
+      tab.addEventListener('click', changeTab)
    })
+   allTabs.children[allTabs.childElementCount-1].classList.add('animateExpand')
+   setTimeout(() => { allTabs.children[allTabs.childElementCount-1].classList.remove('animateExpand') }, 250)
+   tabs[user.recent].classList.remove('active')
+   tabs = document.querySelectorAll('.tab')
+   user.recent = tabs.length - 1
+   saveFunc()
+   tabs[user.recent].classList.add('active')
+   area.innerText = user.data[user.recent].text
 }
-changeTab()
 
-const addTab = () => {
-   document.querySelector('.addTab').onclick = () => {
-      data.forEach(data => {
-         if (data.id != data.length) {
-            data.recent = 'false'
-         }
-      })
-      currentTab = data.length
-      data.push({
-         id: data.length,
-         name: `Tab ${data.length + 1}`,
-         body: '',
-         recent: 'true'
-      })
-      allTabs.innerHTML = null
-      callAllFunctions()
+const deleteTab = (e) => {
+   let currTab
+   if (!e) {
+      currTab = user.recent
+   } else {
+      currTab = e.target.parentElement.children[0].innerText.slice(-1) - 1
    }
+   allTabs.children[currTab].classList.add('animateContract')
+   setTimeout(() => {
+      allTabs.children[currTab].classList.remove('animateContract')
+      let filtered = user.data.filter(data => (data.tabName.slice(-1) - 1 != currTab))
+      user.data = filtered
+      user.recent = user.data.length - 1
+      saveFunc()
+      loadData()
+      loadTabs()
+   }, 120)
 }
-addTab()
 
-const closeFunc = () => {
-   document.querySelectorAll('.close').forEach((close, i) => {
-      close.onclick = () => {
-         data = data.filter(data => data.id != i)
-         data.forEach((data, i) => {
-            data.id = i
-         })
-         data[data.length - 1].recent = 'true'
-         if (data.id != (data.length - 1)) {
-            data.recent = 'false'
-         }
-         text = data[data.length - 1].body
-         currentTab = data[data.length - 1].id
-         allTabs.innerHTML = null
-         callAllFunctions()
+const changeTab = (e) => {
+   tabs = document.querySelectorAll('.tab')
+   let el = e.target
+   if (e.target.classList[0] !== 'tab') {
+      el = e.target.parentElement
+   }
+   tabs.forEach(tab => {
+      if (tab.classList[1]) {
+         tab.classList.remove('active')
       }
    })
+   el.classList.add('active')
+   user.recent = el.id
+   saveFunc()
+   area.innerText = user.data[user.recent].text
 }
-closeFunc()
 
-const boldText = () => {
-   document.querySelector('.area').addEventListener('select', () => {
-      let selected = window.getSelection().toString()
-   })
+const switchTab = (symbol) => {
+   tabs = document.querySelectorAll('.tab')
+   tabs[user.recent].classList.remove('active')
+   if (symbol === '-') {
+      if (Number(user.recent) === 0) {
+         user.recent = tabs.length - 1
+      } else {
+         user.recent -= 1
+      }
+   } else if (symbol === '+') {
+      if (Number(user.recent) === tabs.length - 1) {
+         user.recent = 0
+      } else {
+         user.recent += 1
+      }
+   }
+   tabs[user.recent].classList.add('active')
+   saveFunc()
+   area.innerText = user.data[user.recent].text
 }
-boldText()
+
+const updateTextData = () => {
+   let text = area.innerText
+   user.data[user.recent].text = text
+   saveFunc()
+}
+
+// Listeners
+
+addTab.addEventListener('click', addTabFunc)
+area.addEventListener('keyup', () => {
+   if (options.autosave === true) {
+      updateTextData()
+   }
+})
+
+document.addEventListener('keyup', (e) => {
+   if (e.altKey === true && e.key === 't') {
+      addTabFunc()
+   } else if (e.altKey === true && e.key === 's') {
+      saveButtonFunc()
+   } else if (e.altKey === true && e.key === 'w') {
+      deleteTab()
+   }
+})
+
+document.addEventListener('keydown', (e) => {
+   if (e.ctrlKey === true && e.key === 'ArrowLeft') {
+      switchTab('-')
+   } else if (e.ctrlKey === true && e.key === 'ArrowRight') {
+      switchTab('+')
+   }
+})
+
+document.querySelector('.bold').onclick = () => {document.execCommand('bold',false,null)}
+document.querySelector('.italic').onclick = () => {document.execCommand('italic',false,null)}
+document.querySelector('.underline').onclick = () => {document.execCommand('underline',false,null)}

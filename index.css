@@ -4,7 +4,7 @@
    box-sizing: border-box;
 }
 
-body.logister, body.profile {
+body.logister {
    height: 100vh;
    width: 100vw;
    display: flex;
@@ -12,17 +12,157 @@ body.logister, body.profile {
    align-items: center;
 }
 
-body.logister > header, body.profile > header {
-   position: absolute;
-   top: 0;
-   width: 100%;
+body.profile {
+   padding-top: 25px;
+   overflow: hidden;
 }
 
-.tabSection {
-   height: 10vh;
+body.profile > header {
+   position: fixed;
+   top: 0;
    width: 100vw;
-   background-color: red;
 }
+
+.sections {
+   scroll-behavior: smooth;
+   scroll-snap-type: y mandatory;
+   overflow-y: scroll;
+   height: 100vh;
+}
+
+section.profileSection {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   scroll-snap-align: center;
+   z-index: -1;
+}
+
+/* Home */
+
+.tabSection {
+   height: 40px;
+   width: 100%;
+   overflow-x: auto;
+   overflow-y: hidden;
+   background-color: rgb(144, 150, 247);
+   z-index: 0;
+   display: flex;
+   align-items: center;
+   user-select: none;
+}
+
+.allTabs {
+   display: flex;
+   margin: 0 10px;
+}
+
+@keyframes expandTabAnimate {
+   0% {width: 25px;font-size: .2rem;}
+   100% {width: 125px;font-size: initial;}
+}
+
+@keyframes contractTabAnimate {
+   0% {width: 125px;font-size: initial;}
+   100% {width: 25px;font-size: .2rem;}
+}
+
+.tab {
+   height: 35px;
+   width: 125px;
+   display: flex;
+   align-items: center;
+   border-right: 2px solid black;
+}
+
+.tab.active {
+   background-color: rgb(177,182,250);
+   transition: all .2s ease-in-out;
+}
+
+.tab.animateExpand {
+   animation: expandTabAnimate .2s;
+}
+
+.tab.animateContract {
+   animation: contractTabAnimate .2s;
+}
+
+.tabName {
+   font-family: Verdana, Geneva, Tahoma, sans-serif;
+   margin-right: 25px;
+   margin-left: 25px;
+   cursor: default;
+}
+
+.close, .addTab {
+   font-weight: bold;
+   cursor: pointer;
+}
+
+.addTab {
+   font-size: 1.7rem;
+}
+
+/* Options */
+
+.options {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.options > .btn {
+   outline: none;
+   border: none;
+   background-color: rgb(177,182,250);
+   width: 50px;
+   margin: 20px 10px;
+   padding: 10px;
+   cursor: pointer;
+   transition: all .2s ease-in-out;
+}
+
+.options > .btn:hover {
+   background-color: rgb(195, 199, 250);
+}
+
+/* Text Area */
+
+.area {
+   height: 80vh;
+   border: .2px solid black;
+   margin: 0 20px;
+   padding: 15px;
+   font-size: 1.2rem;
+   font-family: cursive;
+   overflow-y: auto;
+}
+
+.area:focus-within {
+   outline: none;
+}
+
+.area::-webkit-scrollbar {
+   width: 10px;
+}
+
+.area::-webkit-scrollbar-track:hover {
+   background-color: #f1f1f1;
+   cursor: pointer;
+}
+
+.area::-webkit-scrollbar-thumb {
+   background-color: #888;
+   border-radius: 10px;
+}
+
+.area::-webkit-scrollbar-thumb:hover {
+   background-color: #555;
+}
+
+/* Logister */
 
 .bg {
    background-image: url('./logister.jpg');
@@ -38,6 +178,17 @@ body.logister > header, body.profile > header {
    display: flex;
    flex-direction: column;
    justify-content: center;
+}
+
+.logisterForm > .otherLink {
+   text-align: center;
+   margin-top: 20px;
+   font-size: 1.1rem;
+}
+
+.logisterForm > .otherLink > a {
+   color: #fff;
+   text-decoration: none;
 }
 
 .material-icons {
@@ -64,7 +215,7 @@ body.logister > header, body.profile > header {
    margin-top: 10px;
 }
 
-.submit, .deleteUser, .changeUserDetails {
+.submit, .deleteUser, .changeUserDetails, .changePassword, .confirmButton {
    outline: none;
    border: none;
    cursor: pointer;
@@ -81,7 +232,7 @@ body.logister > header, body.profile > header {
    transition: all 0.3s ease;
 }
 
-.submit:hover, .deleteUser:hover, .changeUserDetails:hover {
+.submit:hover, .deleteUser:hover, .changeUserDetails:hover, .changePassword:hover, .confirmButton:hover {
    background-color: #fff;
    color: #47AB11;
 }
@@ -115,32 +266,168 @@ nav > ul {
    display: flex;
    align-items: center;
    justify-content: center;
+   flex-direction: column;
    cursor: pointer;
    font-size: 1.2rem;
    font-family: cursive;
    background-color: rgb(177, 182, 250);
    transition: all .2s ease-in-out;
+   position: relative;
 }
 .navEl:hover {
    background-color: rgb(159, 164, 252);
 }
 
-.navEl.logister {
-   position: relative;
-   left: 71vw;
+.navEl.menu > span {
+   padding: 20px 20px 15px 20px;
 }
 
-/* Img */
-
-.navEl:first-of-type > img {
-   height: 50px;
-   width: 50px;
-}
-.navEl:first-of-type {
-   padding: 0 20px;
-}
-.navEl:first-of-type:hover {
+.webLogo:hover {
    background-color: rgb(177, 182, 250);
+}
+
+.webLogo > img {
+   width: 50px;
+   height: 50px;
+   margin: 0 10px;
+   transition: transform .5s ease-in-out;
+}
+
+.webLogo > img:hover {
+   transform: rotate(360deg)
+}
+
+.clickSpan {
+   user-select: none;
+}
+
+/* Menus */
+
+.menuList {
+   list-style: none;
+   background-color: rgb(135, 143, 248);
+   width: 225px;
+   font-size: 1rem;
+   font-family: cursive;
+   position: absolute;
+   top: 60px;
+   left: 0;
+   display: none;
+   opacity: 0;
+   user-select: none;
+}
+
+.menuList2 {
+   width: 150px;
+}
+
+.menuList3 {
+   width: 300px;
+}
+
+@keyframes expandMenu {
+   0% {display: none;opacity: 0;}
+   1% {display: block;}
+   100% {opacity: 1;}
+}
+
+@keyframes contractMenu {
+   0% {display: block;opacity: 1;}
+   100% {display: none;opacity: 0;}
+}
+
+.menuList.expand {
+   animation: expandMenu .2s;
+   display: block;
+   opacity: 1;
+}
+
+.menuList.contract {
+   animation: contractMenu .2s;
+   display: block;
+}
+
+.menuList > li {
+   display: flex;
+   align-items: center;
+   transition: all .15s ease-out;
+   cursor: pointer;
+   padding: 5px 15px;
+}
+
+.menuMainSpan {
+   display: flex;
+   align-items: center;
+}
+
+.menuList > li:not(.menuSeperate):hover {
+   background-color: rgb(168, 172, 252)
+}
+
+li.menuSeperate {
+   cursor: default;
+   width: 160px;
+   position: relative;
+   right: 5px;
+}
+
+.menuSeperate > hr {
+   width: 100%;
+   border: 1px solid;
+}
+
+.shortcut {
+   position: absolute;
+   right: 10px;
+   font-size: .9rem;
+   opacity: .6;
+}
+
+.done {
+   position: absolute;
+   left: 90px;
+   top: 37px;
+   cursor: pointer;
+}
+
+.menuList > li.disabled {
+   background-color: rgb(116, 123, 248);
+   opacity: .6;
+   cursor: default;
+   user-select: none;
+}
+
+.menuList > li.disabled:hover {
+   background-color: rgb(116, 123, 248);
+}
+
+/* Profile Pic */
+.navProfilePicLi {
+   pointer-events: none;
+   margin-right: 3vw;
+}
+
+.navProfilePic {
+   width: 50px;
+   height: 50px;
+   border-radius: 50%;
+}
+
+/* Log out */
+
+.navEl.logout {
+   margin-left: auto;
+}
+
+.navEl.logout > button {
+   cursor: pointer;
+   width: 100%;
+   height: 100%;
+   background-color: transparent;
+   border: none;
+   padding: 0 20px;
+   font-size: 1.2rem;
+   font-family: cursive;
 }
 
 /* Links */
@@ -164,16 +451,73 @@ nav > ul {
 
 /* Profile */
 
-.profileForm {
+/* Nav */
+
+.profileNav > ul {
+   background-color: rgb(144, 150, 247);
+   height: 60px;
+   margin-top: 30px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   list-style: none;
+   position: fixed;
+   width: 100vw;
+   z-index: 0;
+}
+
+.profileNavItem > a {
+   text-decoration: none;
+   margin: 20px;
+   font-size: 1.1rem;
+   font-family: cursive;
+}
+
+/* Image Upload */
+
+#fileUpload {
+   display: none;
+}
+
+#userImage, #fileUploadLabel {
+   cursor: pointer;
+   height: 250px;
+   width: 250px;
+   border-radius: 50%;
+   position: absolute;
+   left: 10vw;
+   top: 40vh;
+}
+
+#fileUploadLabel {
+   background-color: transparent;
+   z-index: 1;
+}
+
+#userImage {
+   z-index: 0;
+}
+
+/* Forms */
+
+.userDetailsForm, .passwordForm, .deleteForm {
    display: flex;
    justify-content: center;
    align-items: center;
    flex-direction: column;
+   border: 2px dashed red;
+   padding: 20px;
+   padding-top: 75px;
 }
 
-.profileForm > .mssg {
+.userDetailsForm > .mssg, .passwordForm > .mssg, .deleteForm > .mssg {
    margin-bottom: 30px;
    background-color: red;
+   width: 275px;
+}
+
+.passwordForm > .mssg {
+   width: 300px;
 }
 
 .profileField {
@@ -193,6 +537,26 @@ nav > ul {
    width: 200px;
 }
 
+.changeUserDetails, .changePassword {
+   width: 175px;
+   font-size: .9rem;
+   text-align: center;
+   padding: 15px;
+   margin: 10px;
+}
+
+.changePassword {
+   background-color: blue;
+}
+.changePassword:hover {
+   color: blue;
+}
+
+.confirmButton {
+   margin-left: 45px;
+   margin-right: 25px;
+}
+
 .deleteUser {
    background-color: red;
    width: 150px;
@@ -200,15 +564,10 @@ nav > ul {
    text-align: center;
    padding: 15px;
    margin: 10px;
+   position: relative;
+   right: 50px;
+   top: 20px;
 }
 .deleteUser:hover {
    color: red;
-}
-
-.changeUserDetails {
-   width: 175px;
-   font-size: .9rem;
-   text-align: center;
-   padding: 15px;
-   margin: 10px;
 }
