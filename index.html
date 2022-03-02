@@ -7,6 +7,7 @@
     <link rel="shortcut icon" href="textEditor.jpg" type="image/x-icon">
     <link rel="stylesheet" href="index.css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js" defer></script>
     <script src="index.js" defer></script>
     <script src="logout.js" defer></script>
     <script src="expandNav.js" defer></script>
@@ -22,33 +23,45 @@
              <span class="clickSpan clickSpan1">File</span>
              <ul class="menuList menuList1">
                <li><span title="Save Data" class="menuMainSpan save">Save</span><span class="shortcut">Alt+S</span></li>
-               <li><span title="Enable/Disable Auto Save" class="menuMainSpan autoSave">Auto Save <span class="done material-icons"></span></span><span class="shortcut">Alt+Shift+S</span></li>
+               <li><span title="Enable/Disable Auto Save" class="menuMainSpan autoSave">Auto Save <span class="done material-icons"></span></span><span class="shortcut">Alt+A</span></li>
                <li><span title="Create A New Tab" class="menuMainSpan newTab">New Tab</span><span class="shortcut">Alt+T</span></li>
+               <li><span title="Go to the Next Tab" class="menuMainSpan nextTab">Next Tab</span><span class="shortcut">Alt+RightArrow</span></li>
+               <li><span title="Go to the Previous Tab" class="menuMainSpan previousTab">Previous Tab</span><span class="shortcut">Alt+LeftArrow</span></li> 
                <li><span title="Close Current Tab" class="menuMainSpan closeTab">Close Tab</span><span class="shortcut">Alt+W</span></li>
               </ul>
             </li>
             <li class="navEl menu menu2">
               <span class="clickSpan clickSpan2">Edit</span>
               <ul class="menuList menuList2">
-                <li><span title="Undo Recent Action" class="menuMainSpan undo">Undo</span><span class="shortcut">Ctrl+Z</span></li>
-                <li><span title="Redo Recently Undone Action" class="menuMainSpan redo">Redo</span><span class="shortcut">Ctrl+U</span></li>
+                <li><span class="menuMainSpan undo" title="Undo Recent Action">Undo</span><span class="shortcut">Ctrl+Z</span></li>
+                <li><span class="menuMainSpan redo" title="Redo Recently Undone Action">Redo</span><span class="shortcut">Ctrl+U</span></li>
                 <li class="menuSeperate"><hr></li>
-                <li><span title="Cut Selected Text" class="menuMainSpan cut">Cut</span><span class="shortcut">Ctrl+X</span></li>
-                <li><span title="Copy Selected Text" class="menuMainSpan copy">Copy</span><span class="shortcut">Ctrl+C</span></li>
-                <li><span title="Paste Text From Clipboard" class="menuMainSpan paste">Paste</span><span class="shortcut">Ctrl+V</span></li>
+                <li><span class="menuMainSpan cut" title="Cut Selected Text">Cut</span><span class="shortcut">Ctrl+X</span></li>
+                <li><span class="menuMainSpan copy" title="Copy Selected Text">Copy</span><span class="shortcut">Ctrl+C</span></li>
+                <li><span class="menuMainSpan paste" title="Paste Text From Clipboard">Paste</span><span class="shortcut">Ctrl+V</span></li>
               </ul>
             </li>
             <li class="navEl menu menu3">
                <span class="clickSpan clickSpan3">Format</span>
                <ul class="menuList menuList3">
-                  <li><span class="menuMainSpan bold">Bold</span><span class="shortcut">Ctrl+B</span></li>
-                  <li><span class="menuMainSpan italic">Italic</span><span class="shortcut">Ctrl+I</span></li>
-                  <li><span class="menuMainSpan underline">Underline</span><span class="shortcut">Ctrl+U</span></li>
-                  <li><span class="menuMainSpan decFontSize">Decrease Font Size</span><span class="shortcut">Ctrl+DownArrow</span></li>
-                  <li><span class="menuMainSpan incFontSize">Increase Font Size</span><span class="shortcut">Ctrl+UpArrow</span></li>
-                  <li><span class="menuMainSpan subscript">Subscript</span><span class="shortcut">Alt+DownArrow</span></li>
-                  <li><span class="menuMainSpan superscript">Superscript</span><span class="shortcut">Alt+UpArrow</span></li>
+                  <li><span class="menuMainSpan bold" title="Make Text Bold">Bold</span><span class="shortcut">Ctrl+B</span></li>
+                  <li><span class="menuMainSpan italic" title="Make Text Italic">Italic</span><span class="shortcut">Ctrl+I</span></li>
+                  <li><span class="menuMainSpan underline" title="Underline Text">Underline</span><span class="shortcut">Ctrl+U</span></li>
+                  <li><span class="menuMainSpan decFontSize" title="Make the Font Size Smaller">Decrease Font Size</span><span class="shortcut">Ctrl+LeftArrow</span></li>
+                  <li><span class="menuMainSpan incFontSize" title="Make the Font Size Larger">Increase Font Size</span><span class="shortcut">Ctrl+RightArrow</span></li>
+                  <li><span class="menuMainSpan subscript" title="Make Selected Text Subscript">Subscript</span><span class="shortcut">Alt+DownArrow</span></li>
+                  <li><span class="menuMainSpan superscript" title="Make Selected Text Superscript">Superscript</span><span class="shortcut">Alt+UpArrow</span></li>
                </ul>
+            </li>
+            <li class="navEl menu menu4">
+              <span class="clickSpan clickSpan4">Select</span>
+              <ul class="menuList menuList4">
+                <li><span class="menuMainSpan selectAll" title="Select All Text"></span><span class="shortcut">Ctrl+A</span></li>
+                <li><span class="menuMainSpan selectLeftWord" title="Select Word Left To The Cursor"></span><span class="shortcut">Ctrl+Shift+LeftArrow</span></li>
+                <li><span class="menuMainSpan selectRightWord" title="Select Word Right To The Cursor"></span><span class="shortcut">Ctrl+Shift+RightArrow</span></li>
+                <li><span class="menuMainSpan" title=""></span><span class="shortcut"></span></li>
+                <li><span class="menuMainSpan" title=""></span><span class="shortcut"></span></li>
+              </ul>
             </li>
             <li class="navEl active"><a href="/index.html">Home</a></li>
             <li class="navEl"><a href="/profile.html">Profile</a></li>

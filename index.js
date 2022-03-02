@@ -121,7 +121,8 @@ const changeTab = (e) => {
    area.innerText = user.data[user.recent].text
 }
 
-const switchTab = (symbol) => {
+const switchTab = (symbol, e) => {
+   if (e.shiftKey) return
    tabs = document.querySelectorAll('.tab')
    tabs[user.recent].classList.remove('active')
    if (symbol === '-') {
@@ -148,7 +149,11 @@ const updateTextData = () => {
    saveFunc()
 }
 
-// Listeners
+const execCmd = (cmd, val) => {
+   document.execCommand(cmd,false,val?val:null)
+}
+
+// Event Listeners
 
 addTab.addEventListener('click', addTabFunc)
 area.addEventListener('keyup', () => {
@@ -158,23 +163,49 @@ area.addEventListener('keyup', () => {
 })
 
 document.addEventListener('keyup', (e) => {
-   if (e.altKey === true && e.key === 't') {
-      addTabFunc()
-   } else if (e.altKey === true && e.key === 's') {
-      saveButtonFunc()
-   } else if (e.altKey === true && e.key === 'w') {
-      deleteTab()
+   if (e.altKey) {
+      switch (e.key) {
+         case 't':
+            addTabFunc()
+         break
+         case 's':
+            saveButtonFunc()
+         break
+         case 'w':
+            deleteTab()
+         break
+         case 'a':
+            autoSaveToggler()
+         break
+         case 'ArrowDown':
+            execCmd('subscript')
+         break
+         case 'ArrowUp':
+            execCmd('superscript')
+         break
+      }
    }
 })
 
-document.addEventListener('keydown', (e) => {
-   if (e.ctrlKey === true && e.key === 'ArrowLeft') {
-      switchTab('-')
-   } else if (e.ctrlKey === true && e.key === 'ArrowRight') {
-      switchTab('+')
+document.addEventListener('keydown', e => {
+   if (e.altKey) {
+      switch (e.key) {
+         case 'ArrowLeft':
+            switchTab('-', e)
+         break
+         case 'ArrowRight':
+            switchTab('+', e)
+         break
+      }
    }
 })
 
-document.querySelector('.bold').onclick = () => {document.execCommand('bold',false,null)}
-document.querySelector('.italic').onclick = () => {document.execCommand('italic',false,null)}
-document.querySelector('.underline').onclick = () => {document.execCommand('underline',false,null)}
+document.querySelector('.nextTab').parentElement.onclick = e => switchTab('+', e)
+document.querySelector('.previousTab').parentElement.onclick = e => switchTab('-', e)
+document.querySelector('.bold').parentElement.onclick = () => execCmd('bold')
+document.querySelector('.italic').parentElement.onclick = () => execCmd('italic')
+document.querySelector('.underline').parentElement.onclick = () => execCmd('underline')
+document.querySelector('.subscript').parentElement.onclick = () => execCmd('subscript')
+document.querySelector('.superscript').parentElement.onclick = () => execCmd('superscript')
+document.querySelector('.decFontSize').parentElement.onclick = () => execCmd('decreaseFontSize')
+document.querySelector('.incFontSize').parentElement.onclick = () => execCmd('increaseFontSize')

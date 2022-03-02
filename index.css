@@ -105,29 +105,6 @@ section.profileSection {
    font-size: 1.7rem;
 }
 
-/* Options */
-
-.options {
-   display: flex;
-   justify-content: center;
-   align-items: center;
-}
-
-.options > .btn {
-   outline: none;
-   border: none;
-   background-color: rgb(177,182,250);
-   width: 50px;
-   margin: 20px 10px;
-   padding: 10px;
-   cursor: pointer;
-   transition: all .2s ease-in-out;
-}
-
-.options > .btn:hover {
-   background-color: rgb(195, 199, 250);
-}
-
 /* Text Area */
 
 .area {
