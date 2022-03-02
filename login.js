@@ -3,7 +3,7 @@ const mssg = document.querySelector('.mssg')
 let users = JSON.parse(localStorage.getItem('users')) || []
 
 if (sessionStorage.getItem('Current User Index') !== null) {
-   window.location.replace('/index.html')
+   window.location.replace('index.html')
 }
 
 const empty = () => {
@@ -22,7 +22,7 @@ const loginIn = (un, pw) => {
          sessionStorage.setItem('Current User Index', JSON.stringify(i))
          
          setTimeout(() => {
-            window.location.replace('/index.html')
+            window.location.replace('index.html')
          }, 1500)
          return true
       } else {
