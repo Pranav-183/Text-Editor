@@ -34,18 +34,27 @@ const checkForOtherMenuClick = (i, before) => {
       spans[before].style.backgroundColor = 'rgb(177, 182, 250)'
    }
 
-   if (i == 0) {
-      if (check1 || check2) {
-         both()
-      }
-   } else if (i == 1) {
-      if (check0 || check2) {
-         both()
-      }
-   } else if (i == 2) {
-      if (check0 || check1) {
-         both()
-      }
+   {// if (i == 0) {
+      //    if (check1 || check2 || check3) {
+      //       both()
+      //    }
+      // } else if (i == 1) {
+      //    if (check0 || check2 || check3) {
+      //       both()
+      //    }
+      // } else if (i == 2) {
+      //    if (check0 || check1 || check3) {
+      //       both()
+      //    }
+      // } else if (i == 3) {
+      //    if (check0 || check1 || check2) {
+      //       both()
+      //    }
+      // }
+   }
+
+   if ((i == 0 && (check1 || check2)) || (i == 1 && (check0 || check2)) || (i == 2 && (check0 || check1))) {
+      both()
    }
 }
 

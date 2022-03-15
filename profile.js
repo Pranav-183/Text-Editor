@@ -1,7 +1,7 @@
 const index = sessionStorage.getItem('Current User Index')
 const fileUpload = document.querySelector('#fileUpload')
 const userImage = document.querySelector('#userImage')
-const users = JSON.parse(localStorage.getItem('users'))
+let users = JSON.parse(localStorage.getItem('users'))
 const user = users[index]
 const form1 = document.forms[0]
 const form2 = document.forms[1]
@@ -69,4 +69,20 @@ form2.onsubmit = (e) => {
       form2.newpw.value = ''
    }
    mssg2.style.opacity = 1
+}
+
+// FORM 3
+
+form3.confirmButton.addEventListener('click', e => {
+   e.target.classList.add('confirmed')
+})
+
+form3.onsubmit = (e) => {
+   e.preventDefault()
+   if ((form3.pw.value === user.password) && (form3.confirmButton.classList.contains('confirmed'))) {
+      users = users.filter(currUser => currUser.name !== user.name)
+      localStorage.setItem('users', JSON.stringify(users))
+      sessionStorage.removeItem('Current User Index')
+      window.location.replace('login.html')
+   }
 }

@@ -302,6 +302,10 @@ nav > ul {
    width: 300px;
 }
 
+.menuList4 {
+   width: 200px;
+}
+
 @keyframes expandMenu {
    0% {display: none;opacity: 0;}
    1% {display: block;}
